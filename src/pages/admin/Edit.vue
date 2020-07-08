@@ -4,21 +4,43 @@
       <q-card-section class="q-gutter-md">
         <div class="text-h5">Edit Berita</div>
         <q-form
-          @reset="onReset"
           @submit="onSubmit"
-          class="q-mt-lg"
-        >
-        <div class="q-gutter-md">
-          <q-input label="Tag" v-model="tag" filled  :rules="[ val => val && val.length > 0 || 'Insert Your Time']"></q-input>
-          <q-input label="Judul Berita" v-model="judul" filled :rules="[ val => val && val.length > 0 || 'Insert Your Judul']"></q-input>
-          <q-editor
+          @reset="onReset"
+          class="q-gutter-md"
+          >
+          <div class="q-pa-md">
+            <q-input
             filled
-            autogrow
-            v-model="isi"
-            min-height="5rem" />
-          <q-btn label="Update" type="submit" color="light-blue-12" unelevated></q-btn>
-          <q-btn label="Reset" type="reset" color="light-blue-12" flat unelevated></q-btn>
-        </div>
+            v-model="form.tag"
+            label="Tag"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            />
+
+            <q-input
+              filled
+              v-model="form.judul"
+              label="Judul"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please type something']"
+            />
+
+            <q-editor
+              filled
+              autogrow
+              v-model="form.isi"
+              min-height="5rem" />
+
+            <q-file class="q-pt-md" accept=".jpg, image/*" color="teal" filled v-model="image" label="Upload Gambar">
+                <template v-slot:prepend>
+                  <q-icon name="cloud_upload"/>
+                </template>
+            </q-file>
+          </div>
+          <div>
+            <q-btn label="Update" type="submit" color="light-blue-12" unelevated></q-btn>
+            <q-btn label="Reset" type="reset" color="light-blue-12" flat unelevated></q-btn>
+          </div>
         </q-form>
       </q-card-section>
     </q-card>
@@ -28,9 +50,12 @@
 export default {
   data () {
     return {
-      tag: null,
-      judul: null,
-      isi: null
+      form: {
+        tag: null,
+        judul: null,
+        isi: ''
+      },
+      image: null
     }
   },
   created () {
@@ -41,10 +66,7 @@ export default {
       console.log(this.$route.params.id)
       this.$axios.get('berita/tampilsingle/' + this.$route.params.id)
         .then(res => {
-          const data = res.data
-          this.tag = data.tag
-          this.judul = data.judul
-          this.isi = data.isi
+          this.form = res.data.data
         })
     },
     onReset () {
@@ -53,26 +75,26 @@ export default {
       this.isi = null
     },
     onSubmit () {
-      this.$axios.put('berita/edit/' + this.$route.params.id, {
-        waktu: this.waktu,
-        judul: this.judul,
-        isi: this.isi
-      }).then(res => {
-        if (res.data.sukses) {
-          this.$q.notify({
-            type: 'positive',
-            message: res.data.pesan,
-            position: 'top'
-          })
-          this.$router.push({ name: 'data' })
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: res.data.pesan,
-            position: 'top'
-          })
-        }
-      })
+      const formData = new FormData()
+      formData.append('image', this.image)
+      formData.append('data', JSON.stringify(this.form))
+      this.$axios.put(`berita/edit/${this.$route.params.id}`, formData)
+        .then(res => {
+          if (res.data.sukses) {
+            this.$q.notify({
+              type: 'positive',
+              message: res.data.pesan,
+              position: 'top'
+            })
+            this.$router.push({ name: 'data' })
+          } else {
+            this.$q.notify({
+              type: 'negative',
+              message: res.data.pesan,
+              position: 'top'
+            })
+          }
+        })
     }
   }
 }

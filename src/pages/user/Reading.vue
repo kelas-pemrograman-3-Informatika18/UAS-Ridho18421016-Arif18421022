@@ -3,7 +3,7 @@
     <q-card
       class="my-card">
       <q-img
-        :src="gambar"
+        :src="`${$baseImageURL}/${image}`"
         style="height: 500px"
         basic
       >
@@ -24,8 +24,9 @@
 export default {
   data () {
     return {
-      judul: null,
-      isi: null
+      judul: '',
+      isi: '',
+      image: ''
     }
   },
   created () {
@@ -36,34 +37,11 @@ export default {
       console.log(this.$route.params.id)
       this.$axios.get('berita/tampilsingle/' + this.$route.params.id)
         .then(res => {
-          const data = res.data
-          this.judul = data.judul
-          this.isi = data.isi
+          console.log(res)
+          this.judul = res.data.data.judul
+          this.isi = res.data.data.isi
+          this.image = res.data.data.image
         })
-    },
-    onReset () {
-      this.isi = null
-      this.isi = null
-    },
-    onSubmit () {
-      this.$axios.put('kegiatan/edit/' + this.$route.params.id, {
-        waktu: this.waktu,
-        judul: this.judul,
-        keterangan: this.keterangan
-      }).then(res => {
-        if (res.data.sukses) {
-          this.$q.notify({
-            type: 'positive',
-            message: res.data.pesan
-          })
-          this.$router.push({ name: 'dashboard' })
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: res.data.pesan
-          })
-        }
-      })
     }
   }
 }

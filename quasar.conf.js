@@ -89,7 +89,8 @@ module.exports = function (/* ctx */) {
         'QTr',
         'QTd',
         'QImg',
-        'QEditor'
+        'QEditor',
+        'QFile'
       ],
 
       directives: [

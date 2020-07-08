@@ -15,6 +15,13 @@
           <q-td key="Judul" :props="props">
             {{ props.row.judul }}
           </q-td>
+          <q-td key="gambar" :props="props">
+               <q-img
+                  :src="`${$baseImageURL}/${props.row.image}`"
+                  spinner-color="white"
+                  :ratio="16/9"
+                />
+            </q-td>
           <q-td key="Aksi" :props="props">
             <div class="row">
               <div class="col">
@@ -47,15 +54,9 @@ export default {
   data () {
     return {
       columns: [
-        {
-          name: 'Tag',
-          required: true,
-          label: 'Tag',
-          align: 'left',
-          field: 'Tag',
-          sortable: true
-        },
+        { name: 'Tag', label: 'Tag', align: 'left', field: 'Tag', sortable: true },
         { name: 'Judul', align: 'center', label: 'Judul', field: 'Judul', sortable: true },
+        { name: 'gambar', align: 'left', label: 'Gambar', field: 'image', sortable: true },
         { name: 'Aksi', label: 'Aksi', field: 'Aksi', align: 'center' }
       ],
 
@@ -68,7 +69,7 @@ export default {
   methods: {
     getData () {
       this.$axios.get('berita/tampil')
-        .then(res => {
+        .then((res) => {
           if (res.data.sukses) {
             this.data = res.data.data
           } else {

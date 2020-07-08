@@ -53,7 +53,6 @@
       <div class="custom-botton row">
         <div class="col">
           Menyajikan Berita
-          Terupdate Soal UBL
         </div>
         <div class="col-6">
           Ikuti Kami

@@ -76,52 +76,26 @@ export default {
       judul: null,
       isi: null,
       slide: 1,
-      now: []
+      now: [
+        {
+          tag: 'asdasdasda',
+          judul: 'asdasdasda',
+          gambar: 'asdasdasda'
+        },
+        {
+          tag: 'asdasdasda',
+          judul: 'asdasdasda',
+          gambar: 'asdasdasda'
+        },
+        {
+          tag: 'asdasdasda',
+          judul: 'asdasdasda',
+          gambar: 'asdasdasda'
+        }
+      ]
     }
-  },
-  created () {
-    this.getData()
   },
   methods: {
-    getData () {
-      this.$axios.get('berita/tampil')
-        .then(res => {
-          console.log(res)
-          if (res.data.sukses) {
-            this.now = res.data.data
-          } else {
-            this.$q.notify({
-              type: 'negative',
-              message: res.data.pesan
-            })
-          }
-        })
-    },
-    confirm (id) {
-      this.$q.dialog({
-        title: 'Konfirmasi',
-        message: 'Apakah Anda Yakin Menghapus Data',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        console.log('>>>> OK' + id)
-        this.$axios.delete('kegiatan/delete/' + id)
-          .then(res => {
-            if (res.data.sukses) {
-              this.$q.notify({
-                type: 'positive',
-                message: res.data.pesan
-              })
-              this.getData()
-            } else {
-              this.$q.notify({
-                type: 'negative',
-                message: res.data.pesan
-              })
-            }
-          })
-      })
-    }
   }
 }
 </script>

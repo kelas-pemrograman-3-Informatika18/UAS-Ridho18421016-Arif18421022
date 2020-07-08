@@ -12,7 +12,7 @@
         transition-prev="slide-right"
         transition-next="slide-left"
         height="400px">
-        <q-carousel-slide name="first" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
+        <q-carousel-slide name="first" img-src="https://media.suara.com/pictures/970x544/2016/10/11/o_1aupdku9vbu7k7t97q120p8la.jpg">
           <div class="absolute-bottom custom-caption">
             <div class="text-h5">Seorang Dosen membuat mahasiswanya kewalahan</div>
             <div class="text-header">Kejadian bermula saat Dosen berinisial 'W' , membuat Uts untuk mahasiswanya tetapi , tugasnya sungguh berat , dan materi yang dipelajari..</div>
